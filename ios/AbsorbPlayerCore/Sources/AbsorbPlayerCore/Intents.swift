@@ -4,7 +4,7 @@ import Foundation
 
 /// App group used by the host app, the widget extension, and these
 /// intents. Hardcoded so the package has no setup at the call site.
-public let absorbAppGroup = "group.com.barnabas.absorb"
+public let absorbAppGroup = "group.com.zachyazzie.tomekeeper"
 
 // MARK: - Helpers
 
@@ -139,7 +139,7 @@ public struct AbsorbSkipBackIntent: AudioPlaybackIntent {
     let seconds = UserDefaults(suiteName: absorbAppGroup)?
       .integer(forKey: "widget_skip_back")
     core.skipBackward(seconds: (seconds ?? 0) > 0 ? seconds! : 10)
-    postAbsorbDarwinNotification("com.barnabas.absorb.widget.skipBack")
+    postAbsorbDarwinNotification("com.zachyazzie.tomekeeper.widget.skipBack")
     return .result()
   }
 }
@@ -167,7 +167,7 @@ public struct AbsorbPlayPauseIntent: AudioPlaybackIntent {
     core.log("[NativeCore]   predicted willPlay=\(willPlay)")
     activateAbsorbAudioSession()
     core.toggle()
-    postAbsorbDarwinNotification("com.barnabas.absorb.widget.playPause")
+    postAbsorbDarwinNotification("com.zachyazzie.tomekeeper.widget.playPause")
     return .result()
   }
 }
@@ -190,7 +190,7 @@ public struct AbsorbSkipForwardIntent: AudioPlaybackIntent {
     let seconds = UserDefaults(suiteName: absorbAppGroup)?
       .integer(forKey: "widget_skip_forward")
     core.skipForward(seconds: (seconds ?? 0) > 0 ? seconds! : 30)
-    postAbsorbDarwinNotification("com.barnabas.absorb.widget.skipForward")
+    postAbsorbDarwinNotification("com.zachyazzie.tomekeeper.widget.skipForward")
     return .result()
   }
 }

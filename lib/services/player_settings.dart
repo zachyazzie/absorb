@@ -698,7 +698,9 @@ class PlayerSettings {
   static Future<bool> getSnappyTransitions() => _get('snappyTransitions', false);
   static Future<void> setSnappyTransitions(bool value) => _set('snappyTransitions', value);
 
-  static Future<bool> getClassicWording() => _get('classicWording', false);
+  // Wording is permanently locked to the classic "Play / Now Playing /
+  // Finished" vocabulary; the toggle and the Absorb-themed wording were removed.
+  static Future<bool> getClassicWording() async => true;
   static Future<void> setClassicWording(bool value) => _set('classicWording', value);
 
   static Future<bool> getRectangleCovers() => _get('rectangleCovers', false);

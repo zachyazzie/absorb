@@ -28,7 +28,7 @@ class SetupLinkException implements Exception {
 }
 
 class SetupLinkService {
-  static const scheme = 'absorb';
+  static const scheme = 'tomekeeper';
   static const host = 'setup';
   static const _maxEncodedLength = 16000;
 

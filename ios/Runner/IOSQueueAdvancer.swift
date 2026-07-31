@@ -15,7 +15,7 @@ final class IOSQueueAdvancer: NSObject {
 
   static var logSink: ((String) -> Void)?
 
-  private let queue = DispatchQueue(label: "com.barnabas.absorb.queueadvancer")
+  private let queue = DispatchQueue(label: "com.zachyazzie.tomekeeper.queueadvancer")
 
   private weak var _justAudioPlayer: AVQueuePlayer?
   private var _justAudioPlayerId: String?

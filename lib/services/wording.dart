@@ -4,7 +4,7 @@ import '../l10n/app_localizations.dart';
 /// Whether to use classic player vocabulary ("Play", "Now Playing", "Finished")
 /// instead of the Absorb-themed vocabulary ("Absorb", "Absorbing", "Fully
 /// Absorbed"). Lives at app level so any widget rebuilds when it flips.
-final ValueNotifier<bool> classicWordingNotifier = ValueNotifier(false);
+final ValueNotifier<bool> classicWordingNotifier = ValueNotifier(true);
 
 /// Returns either the Absorb-branded localization or a plain-English
 /// equivalent depending on [classicWordingNotifier]. Only the English

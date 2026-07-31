@@ -463,12 +463,16 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                         ),
                         const SizedBox(height: 28),
-                        Text(
-                          l.appTitle,
-                          style: tt.headlineMedium?.copyWith(
-                            fontWeight: FontWeight.w200,
-                            color: cs.onSurface,
-                            letterSpacing: 10,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            l.appTitle,
+                            maxLines: 1,
+                            style: tt.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.w200,
+                              color: cs.onSurface,
+                              letterSpacing: 10,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -1053,7 +1057,7 @@ class _LoginScreenState extends State<LoginScreen>
                   minLines: 2,
                   maxLines: 4,
                   decoration: InputDecoration(
-                    hintText: 'absorb://setup/...',
+                    hintText: 'tomekeeper://setup/...',
                     errorText: errorText,
                     suffixIcon: IconButton(
                       tooltip: l.loginPasteLink,

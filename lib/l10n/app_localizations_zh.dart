@@ -217,7 +217,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String adminSetupFileDescription(String username) {
-    return 'Creates a private sign-in link for $username that only works in the Absorb app.';
+    return 'Creates a private sign-in link for $username that only works in the Tomekeeper app.';
   }
 
   @override
@@ -282,7 +282,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String setupLinkShareSubject(String username) {
-    return 'Absorb sign-in for $username';
+    return 'Tomekeeper sign-in for $username';
   }
 
   @override
@@ -853,12 +853,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String statsRemoveFromYearWithDate(String date, String title) {
-    return 'The finished date will still be $date on the server. This only removes \"$title\" from your Absorb books-this-year list.';
+    return 'The finished date will still be $date on the server. This only removes \"$title\" from your Tomekeeper books-this-year list.';
   }
 
   @override
   String statsRemoveFromYearNoDate(String title) {
-    return 'The finished date stays on the server. This only removes \"$title\" from your Absorb books-this-year list.';
+    return 'The finished date stays on the server. This only removes \"$title\" from your Tomekeeper books-this-year list.';
   }
 
   @override
@@ -869,7 +869,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String statsAddBackToYearBody(String title) {
-    return 'Add \"$title\" back to your Absorb books-this-year list?';
+    return 'Add \"$title\" back to your Tomekeeper books-this-year list?';
   }
 
   @override
@@ -2129,7 +2129,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get passwordChangeUnsupported =>
-      'This server version does not support safe password changes in Absorb';
+      'This server version does not support safe password changes in Tomekeeper';
 
   @override
   String get passwordChangeFailed => 'Could not change your password';
@@ -2171,7 +2171,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get sessionsLegacyNotice =>
-      'This login does not have a refresh session, so Absorb cannot identify this device in the list.';
+      'This login does not have a refresh session, so Tomekeeper cannot identify this device in the list.';
 
   @override
   String get sessionsRemove => 'Sign out device';
@@ -2485,11 +2485,11 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get rmabConfigExplainerAdmin =>
-      'ReadMeABook is a self-hosted service for requesting audiobooks. Generate an API token in RMAB under Admin Dashboard > Settings > API, then paste the server URL and token below. Absorb doesn\'t host or download any content, it just sends requests to your server.';
+      'ReadMeABook is a self-hosted service for requesting audiobooks. Generate an API token in RMAB under Admin Dashboard > Settings > API, then paste the server URL and token below. Tomekeeper doesn\'t host or download any content, it just sends requests to your server.';
 
   @override
   String get rmabConfigExplainerUser =>
-      'ReadMeABook is a self-hosted service for requesting audiobooks. Ask your server admin for the RMAB URL and an API token. Absorb doesn\'t host or download any content, it just sends requests to your server.';
+      'ReadMeABook is a self-hosted service for requesting audiobooks. Ask your server admin for the RMAB URL and an API token. Tomekeeper doesn\'t host or download any content, it just sends requests to your server.';
 
   @override
   String get rmabConfigLearnMore => 'Learn more about ReadMeABook';
@@ -3625,7 +3625,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get setTooltip => 'Set';
 
   @override
-  String get saveAbsorbBackup => 'Save Absorb backup';
+  String get saveAbsorbBackup => 'Save Tomekeeper backup';
 
   @override
   String get checkForUpdate => 'Check for update';
@@ -3641,7 +3641,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String updateDialogContent(String kind, String latest, String current) {
-    return 'A new $kind of Absorb is available: $latest\n\nYou are on $current.';
+    return 'A new $kind of Tomekeeper is available: $latest\n\nYou are on $current.';
   }
 
   @override
@@ -3658,7 +3658,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get updateInstallPermissionDenied =>
-      'Install permission denied. Enable \"Install unknown apps\" for Absorb in system settings.';
+      'Install permission denied. Enable \"Install unknown apps\" for Tomekeeper in system settings.';
 
   @override
   String get updateOpeningInBrowser => 'In-app update failed, opening browser';

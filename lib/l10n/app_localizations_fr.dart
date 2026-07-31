@@ -222,7 +222,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String adminSetupFileDescription(String username) {
-    return 'Creates a private sign-in link for $username that only works in the Absorb app.';
+    return 'Creates a private sign-in link for $username that only works in the Tomekeeper app.';
   }
 
   @override
@@ -289,7 +289,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String setupLinkShareSubject(String username) {
-    return 'Absorb sign-in for $username';
+    return 'Tomekeeper sign-in for $username';
   }
 
   @override
@@ -886,7 +886,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String statsAddBackToYearBody(String title) {
-    return 'Add \"$title\" back to your Absorb books-this-year list?';
+    return 'Add \"$title\" back to your Tomekeeper books-this-year list?';
   }
 
   @override
@@ -1997,7 +1997,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get disableAudioFocusInfoContent =>
-      'By default, Android gives audio \"focus\" to one app at a time - when Absorb plays, other audio (music, videos) will pause. Disabling audio focus lets Absorb play alongside other apps. Phone calls will still pause playback regardless of this setting.';
+      'By default, Android gives audio \"focus\" to one app at a time - when Tomekeeper plays, other audio (music, videos) will pause. Disabling audio focus lets Tomekeeper play alongside other apps. Phone calls will still pause playback regardless of this setting.';
 
   @override
   String get disableAudioFocusOnSubtitle =>
@@ -2005,7 +2005,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get disableAudioFocusOffSubtitle =>
-      'Off - other audio pauses when Absorb plays';
+      'Off - other audio pauses when Tomekeeper plays';
 
   @override
   String get restartRequired => 'Redémarrage requis';
@@ -2042,7 +2042,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get trustAllCertificatesInfoContent =>
-      'Enable this if your Audiobookshelf server uses a self-signed certificate or a custom root CA. When enabled, Absorb will skip TLS certificate verification for all connections. Only enable this if you trust your network.';
+      'Enable this if your Audiobookshelf server uses a self-signed certificate or a custom root CA. When enabled, Tomekeeper will skip TLS certificate verification for all connections. Only enable this if you trust your network.';
 
   @override
   String get trustAllCertificatesOnSubtitle =>
@@ -2131,7 +2131,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String fromAbsorbVersion(String version) {
-    return 'From Absorb v$version';
+    return 'From Tomekeeper v$version';
   }
 
   @override
@@ -2203,7 +2203,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get passwordChangeUnsupported =>
-      'This server version does not support safe password changes in Absorb';
+      'This server version does not support safe password changes in Tomekeeper';
 
   @override
   String get passwordChangeFailed => 'Could not change your password';
@@ -2245,7 +2245,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get sessionsLegacyNotice =>
-      'This login does not have a refresh session, so Absorb cannot identify this device in the list.';
+      'This login does not have a refresh session, so Tomekeeper cannot identify this device in the list.';
 
   @override
   String get sessionsRemove => 'Sign out device';
@@ -2416,7 +2416,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tipsAndHiddenFeatures => 'Tips & Hidden Features';
 
   @override
-  String get tipsSubtitle => 'Get the most out of Absorb';
+  String get tipsSubtitle => 'Get the most out of Tomekeeper';
 
   @override
   String get adminTitle => 'Server Admin';
@@ -2566,11 +2566,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get rmabConfigExplainerAdmin =>
-      'ReadMeABook is a self-hosted service for requesting audiobooks. Generate an API token in RMAB under Admin Dashboard > Settings > API, then paste the server URL and token below. Absorb doesn\'t host or download any content, it just sends requests to your server.';
+      'ReadMeABook is a self-hosted service for requesting audiobooks. Generate an API token in RMAB under Admin Dashboard > Settings > API, then paste the server URL and token below. Tomekeeper doesn\'t host or download any content, it just sends requests to your server.';
 
   @override
   String get rmabConfigExplainerUser =>
-      'ReadMeABook is a self-hosted service for requesting audiobooks. Ask your server admin for the RMAB URL and an API token. Absorb doesn\'t host or download any content, it just sends requests to your server.';
+      'ReadMeABook is a self-hosted service for requesting audiobooks. Ask your server admin for the RMAB URL and an API token. Tomekeeper doesn\'t host or download any content, it just sends requests to your server.';
 
   @override
   String get rmabConfigLearnMore => 'En savoir plus sur ReadMeABook';
@@ -3399,7 +3399,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noOutputDevicesFound => 'No output devices found';
 
   @override
-  String get welcomeToAbsorb => 'Welcome to Absorb';
+  String get welcomeToAbsorb => 'Welcome to Tomekeeper';
 
   @override
   String get welcomeTagline => 'Un client Audiobookshelf.';
@@ -3433,7 +3433,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get welcomeMakeItYoursBody =>
-      'Mess around in Settings to tune Absorb to your taste. The Tips & Hidden Features section in there is worth a look.';
+      'Mess around in Settings to tune Tomekeeper to your taste. The Tips & Hidden Features section in there is worth a look.';
 
   @override
   String get getStarted => 'Get Started';
@@ -3726,7 +3726,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setTooltip => 'Set';
 
   @override
-  String get saveAbsorbBackup => 'Save Absorb backup';
+  String get saveAbsorbBackup => 'Save Tomekeeper backup';
 
   @override
   String get checkForUpdate => 'Check for update';
@@ -3742,7 +3742,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String updateDialogContent(String kind, String latest, String current) {
-    return 'A new $kind of Absorb is available: $latest\n\nYou are on $current.';
+    return 'A new $kind of Tomekeeper is available: $latest\n\nYou are on $current.';
   }
 
   @override
@@ -3759,7 +3759,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get updateInstallPermissionDenied =>
-      'Install permission denied. Enable \"Install unknown apps\" for Absorb in system settings.';
+      'Install permission denied. Enable \"Install unknown apps\" for Tomekeeper in system settings.';
 
   @override
   String get updateOpeningInBrowser => 'In-app update failed, opening browser';

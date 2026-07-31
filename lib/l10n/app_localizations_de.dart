@@ -2207,7 +2207,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get passwordChangeUnsupported =>
-      'This server version does not support safe password changes in Absorb';
+      'This server version does not support safe password changes in Tomekeeper';
 
   @override
   String get passwordChangeFailed => 'Could not change your password';
@@ -2249,7 +2249,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get sessionsLegacyNotice =>
-      'This login does not have a refresh session, so Absorb cannot identify this device in the list.';
+      'This login does not have a refresh session, so Tomekeeper cannot identify this device in the list.';
 
   @override
   String get sessionsRemove => 'Sign out device';

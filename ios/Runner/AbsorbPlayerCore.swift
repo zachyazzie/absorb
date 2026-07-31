@@ -24,9 +24,9 @@ final class AbsorbPlayerCore: NSObject, AbsorbPlayerCoreProtocol, @unchecked Sen
 
   static var logSink: ((String) -> Void)?
 
-  private static let appGroup = "group.com.barnabas.absorb"
+  private static let appGroup = "group.com.zachyazzie.tomekeeper"
 
-  private let queue = DispatchQueue(label: "com.barnabas.absorb.nativecore")
+  private let queue = DispatchQueue(label: "com.zachyazzie.tomekeeper.nativecore")
 
   // Bookkeeping for server push + Now Playing. The actual audio state lives in
   // AbsorbAudioEngine.shared; these just mirror what book we last targeted.

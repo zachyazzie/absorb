@@ -42,7 +42,6 @@ import '../widgets/collapsible_section.dart';
 import '../widgets/overlay_toast.dart';
 import '../widgets/tips_sheet.dart';
 import '../widgets/feature_hint.dart';
-import '../widgets/welcome_sheet.dart';
 import '../widgets/rmab_config_sheet.dart';
 import '../widgets/server_connection_editor.dart';
 import '../widgets/server_admin_status_badges.dart';
@@ -128,7 +127,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _autoSeriesDownloadDefault = false;
   // card button layout is now managed in the edit sheet (more menu)
   bool _snappyTransitions = false;
-  bool _classicWording = false;
   bool _rectangleCovers = false;
   // Per-library overrides shown in the Library section, scoped to whichever
   // library is currently selected (scales to accounts with many libraries -
@@ -830,7 +828,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final chimeVol = results[44] as double;
     final shakeSens = results[45] as String;
     final language = results[46] as String;
-    final classicWording = results[47] as bool;
     final qpId = results[48] as String?;
     final notifSpeedBookmark = results[49] as bool;
     final lockSeek = results[50] as bool;
@@ -883,7 +880,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _loggingEnabled = logging;
       _fullScreenPlayer = fullScreen;
       _snappyTransitions = snappyTrans;
-      _classicWording = classicWording;
       _mp3IndexSeeking = mp3IndexSeek;
       _themeMode = theme == 'oled' ? 'dark' : theme;
       _flatBackground = flatBackground;
@@ -1592,21 +1588,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onChanged: _loaded ? (v) {
                         setState(() => _rectangleCovers = v);
                         PlayerSettings.setRectangleCovers(v);
-                      } : null,
-                    ),
-                    const Divider(height: 1, indent: 16, endIndent: 16),
-                    SwitchListTile(
-                      title: const Text('Classic wording'),
-                      subtitle: Text(
-                        _classicWording
-                            ? 'Using "Play", "Now Playing", "Finished"'
-                            : 'Using "Absorb", "Absorbing", "Fully Absorbed"',
-                        style: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant)),
-                      value: _classicWording,
-                      onChanged: _loaded ? (v) {
-                        setState(() => _classicWording = v);
-                        PlayerSettings.setClassicWording(v);
-                        classicWordingNotifier.value = v;
                       } : null,
                     ),
                     // iPadOS ignores orientation preferences for multitasking
@@ -3327,9 +3308,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         if (!mounted) return;
                         showOverlayToast(context, l.tipsRestored,
                             icon: Icons.lightbulb_outline_rounded);
-                        // Re-trigger the welcome dialog without an app
-                        // restart. resetAll() already cleared the flag.
-                        WelcomeSheet.showIfNeeded(context);
                       },
                     ),
                     const Divider(height: 1, indent: 16, endIndent: 16),

@@ -18,12 +18,19 @@ class AuthLoadingScreen extends StatelessWidget {
           children: [
             AbsorbWaveIcon(size: 48, color: primary),
             const SizedBox(height: 20),
-            Text(
-              'A B S O R B',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: primary,
-                letterSpacing: 6,
-                fontWeight: FontWeight.w300,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  'TOMEKEEPER',
+                  maxLines: 1,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: primary,
+                    letterSpacing: 6,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 32),

@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "A B S O R B",
+  "appTitle": "TOMEKEEPER",
   "online": "Online",
   "offline": "Offline",
   "stillOffline": "Still offline. Tap to try again.",
@@ -73,7 +73,7 @@
     "placeholders": { "username": { "type": "String" } }
   },
   "adminCreateSetupFile": "Share sign-in",
-  "adminSetupFileDescription": "Creates a private sign-in link for {username} that only works in the Absorb app.",
+  "adminSetupFileDescription": "Creates a private sign-in link for {username} that only works in the Tomekeeper app.",
   "@adminSetupFileDescription": {
     "placeholders": { "username": { "type": "String" } }
   },
@@ -105,7 +105,7 @@
   "setupLinkCopied": "Sign-in link copied",
   "setupLinkSaveFile": "Save setup file",
   "setupLinkQrError": "This setup link is too large for a QR code. Share the link instead.",
-  "setupLinkShareSubject": "Absorb sign-in for {username}",
+  "setupLinkShareSubject": "Tomekeeper sign-in for {username}",
   "@setupLinkShareSubject": {
     "placeholders": { "username": { "type": "String" } }
   },
@@ -438,14 +438,14 @@
   "statsBooksThisYear": "Books this year",
   "statsEpisodesThisYear": "Episodes this year",
   "statsRemoveFromYearTitle": "Remove from this year",
-  "statsRemoveFromYearWithDate": "The finished date will still be {date} on the server. This only removes \"{title}\" from your Absorb books-this-year list.",
+  "statsRemoveFromYearWithDate": "The finished date will still be {date} on the server. This only removes \"{title}\" from your Tomekeeper books-this-year list.",
   "@statsRemoveFromYearWithDate": {
     "placeholders": {
       "date": { "type": "String" },
       "title": { "type": "String" }
     }
   },
-  "statsRemoveFromYearNoDate": "The finished date stays on the server. This only removes \"{title}\" from your Absorb books-this-year list.",
+  "statsRemoveFromYearNoDate": "The finished date stays on the server. This only removes \"{title}\" from your Tomekeeper books-this-year list.",
   "@statsRemoveFromYearNoDate": {
     "placeholders": {
       "title": { "type": "String" }
@@ -453,7 +453,7 @@
   },
   "statsRemovedFromYear": "Removed from this year",
   "statsAddBackToYearTitle": "Add back to this year",
-  "statsAddBackToYearBody": "Add \"{title}\" back to your Absorb books-this-year list?",
+  "statsAddBackToYearBody": "Add \"{title}\" back to your Tomekeeper books-this-year list?",
   "@statsAddBackToYearBody": {
     "placeholders": {
       "title": { "type": "String" }
@@ -565,7 +565,7 @@
   "sectionAppearance": "Appearance",
   "languageLabel": "Language",
   "languageSystemDefault": "System default",
-  "languageHelpTranslateInvite": "Want to help translate Absorb into your language?",
+  "languageHelpTranslateInvite": "Want to help translate Tomekeeper into your language?",
   "themeLabel": "Theme",
   "themeDark": "Dark",
   "themeOled": "OLED",
@@ -937,7 +937,7 @@
   "sectionAdvanced": "Advanced",
   "localServer": "Local server",
   "localServerInfoTitle": "Local Server",
-  "localServerInfoContent": "If you run your Audiobookshelf server at home, you can set a local/LAN URL here. Absorb will automatically switch to the faster local connection when it detects you're on your home network, and fall back to your remote URL when you're away.",
+  "localServerInfoContent": "If you run your Audiobookshelf server at home, you can set a local/LAN URL here. Tomekeeper will automatically switch to the faster local connection when it detects you're on your home network, and fall back to your remote URL when you're away.",
   "localServerOnConnectedSubtitle": "Connected via local server",
   "localServerOnRemoteSubtitle": "Enabled - using remote server",
   "localServerOffSubtitle": "Auto-switch to a LAN server on your home WiFi",
@@ -946,9 +946,9 @@
   "localServerUrlSetSnackbar": "Local server URL set - will connect automatically when on your home network",
   "disableAudioFocus": "Disable audio focus",
   "disableAudioFocusInfoTitle": "Audio Focus",
-  "disableAudioFocusInfoContent": "By default, Android gives audio \"focus\" to one app at a time - when Absorb plays, other audio (music, videos) will pause. Disabling audio focus lets Absorb play alongside other apps. Phone calls will still pause playback regardless of this setting.",
+  "disableAudioFocusInfoContent": "By default, Android gives audio \"focus\" to one app at a time - when Tomekeeper plays, other audio (music, videos) will pause. Disabling audio focus lets Tomekeeper play alongside other apps. Phone calls will still pause playback regardless of this setting.",
   "disableAudioFocusOnSubtitle": "On - plays alongside other audio (still pauses for calls)",
-  "disableAudioFocusOffSubtitle": "Off - other audio pauses when Absorb plays",
+  "disableAudioFocusOffSubtitle": "Off - other audio pauses when Tomekeeper plays",
   "restartRequired": "Restart Required",
   "restartRequiredContent": "Audio focus change requires a full restart to take effect. Close the app now?",
   "closeApp": "Close App",
@@ -959,12 +959,12 @@
   "mp3IndexSeekingInfoContent": "Only enable this if you have MP3 files that don't seek to the right position. Inaccurate seeking usually comes from variable bitrate (VBR) MP3s. Index seeking builds an exact time map as the file is read, so jumping near the end of a large MP3 can take a moment - especially when streaming, since the file has to be read up to that point. Takes effect the next time a book or podcast episode starts.",
   "mp3IndexSeekingOnSubtitle": "On - exact seeking for VBR MP3 files",
   "mp3IndexSeekingOffSubtitle": "Off - normal seeking",
-  "trustAllCertificatesInfoContent": "Enable this if your Audiobookshelf server uses a self-signed certificate or a custom root CA. When enabled, Absorb will skip TLS certificate verification for all connections. Only enable this if you trust your network.",
+  "trustAllCertificatesInfoContent": "Enable this if your Audiobookshelf server uses a self-signed certificate or a custom root CA. When enabled, Tomekeeper will skip TLS certificate verification for all connections. Only enable this if you trust your network.",
   "trustAllCertificatesOnSubtitle": "On - accepting all certificates",
   "trustAllCertificatesOffSubtitle": "Off - only trusted certificates accepted",
   "supportTheDev": "Support the Dev",
   "buyMeACoffee": "Buy me a coffee",
-  "appVersionFormat": "Absorb v{version}",
+  "appVersionFormat": "Tomekeeper v{version}",
   "@appVersionFormat": {
     "placeholders": {
       "version": {
@@ -972,7 +972,7 @@
       }
     }
   },
-  "appVersionWithServerFormat": "Absorb v{version}  -  Server {serverVersion}",
+  "appVersionWithServerFormat": "Tomekeeper v{version}  -  Server {serverVersion}",
   "@appVersionWithServerFormat": {
     "placeholders": {
       "version": {
@@ -1008,7 +1008,7 @@
   },
   "restoreBackupTitle": "Restore backup?",
   "restoreBackupContent": "This will replace all your current settings with the backup values.",
-  "fromAbsorbVersion": "From Absorb v{version}",
+  "fromAbsorbVersion": "From Tomekeeper v{version}",
   "@fromAbsorbVersion": {
     "placeholders": {
       "version": {
@@ -1056,7 +1056,7 @@
   "passwordsDoNotMatch": "New passwords do not match",
   "passwordChanged": "Password changed. Other signed-in devices were disconnected.",
   "passwordInvalid": "The current password is incorrect",
-  "passwordChangeUnsupported": "This server version does not support safe password changes in Absorb",
+  "passwordChangeUnsupported": "This server version does not support safe password changes in Tomekeeper",
   "passwordChangeFailed": "Could not change your password",
   "otherUserPasswordResetWarning": "Changing this password signs the user out on every device.",
   "manageSessionsTitle": "Signed-in Devices",
@@ -1075,7 +1075,7 @@
   "sessionsLoadMore": "Load more",
   "sessionsUnsupported": "Session management requires Audiobookshelf 2.36 or newer.",
   "sessionsLoadFailed": "Could not load signed-in devices",
-  "sessionsLegacyNotice": "This login does not have a refresh session, so Absorb cannot identify this device in the list.",
+  "sessionsLegacyNotice": "This login does not have a refresh session, so Tomekeeper cannot identify this device in the list.",
   "sessionsRemove": "Sign out device",
   "sessionsRemoveTitle": "Sign out this device?",
   "sessionsRemoveContent": "This removes its refresh session. Its current access may keep working until that short-lived token expires.",
@@ -1177,7 +1177,7 @@
   "redownloadStarted": "Re-downloading",
   "dismiss": "Dismiss",
   "tipsAndHiddenFeatures": "Tips & Hidden Features",
-  "tipsSubtitle": "Get the most out of Absorb",
+  "tipsSubtitle": "Get the most out of Tomekeeper",
   "adminTitle": "Server Admin",
   "adminTasksTitle": "Server activity",
   "adminTasksRunning": "{count, plural, =1{1 task running} other{{count} tasks running}}",
@@ -1264,8 +1264,8 @@
   "adminRmabUrlHelpUser": "Get a login URL from your server admin. They generate one in RMAB > Admin > Users.",
   "adminRmabSettingsInfo": "ReadMeABook is a self-hosted service for requesting and downloading audiobooks. It must be installed and set up by your server admin.",
   "rmabConfigTitle": "Connect ReadMeABook",
-  "rmabConfigExplainerAdmin": "ReadMeABook is a self-hosted service for requesting audiobooks. Generate an API token in RMAB under Admin Dashboard > Settings > API, then paste the server URL and token below. Absorb doesn't host or download any content, it just sends requests to your server.",
-  "rmabConfigExplainerUser": "ReadMeABook is a self-hosted service for requesting audiobooks. Ask your server admin for the RMAB URL and an API token. Absorb doesn't host or download any content, it just sends requests to your server.",
+  "rmabConfigExplainerAdmin": "ReadMeABook is a self-hosted service for requesting audiobooks. Generate an API token in RMAB under Admin Dashboard > Settings > API, then paste the server URL and token below. Tomekeeper doesn't host or download any content, it just sends requests to your server.",
+  "rmabConfigExplainerUser": "ReadMeABook is a self-hosted service for requesting audiobooks. Ask your server admin for the RMAB URL and an API token. Tomekeeper doesn't host or download any content, it just sends requests to your server.",
   "rmabConfigLearnMore": "Learn more about ReadMeABook",
   "rmabConfigBaseUrlLabel": "RMAB server URL",
   "rmabConfigBaseUrlHint": "https://rmab.example.com",
@@ -1655,7 +1655,7 @@
   "disconnect": "Disconnect",
   "audioOutput": "Audio Output",
   "noOutputDevicesFound": "No output devices found",
-  "welcomeToAbsorb": "Welcome to Absorb",
+  "welcomeToAbsorb": "Welcome to Tomekeeper",
   "welcomeTagline": "An Audiobookshelf client.",
   "welcomeAbsorbingTitle": "Absorbing",
   "welcomeAbsorbingIntro": "We use \"absorb\" in place of \"play\" and \"listen\". Prefer the classic wording? Switch it in Settings.",
@@ -1665,7 +1665,7 @@
   "welcomeGettingAroundTitle": "Getting around",
   "welcomeGettingAroundBody": "Tap any cover to open its details. Continue Listening cards are different - tap to play right away, press and hold to open details.",
   "welcomeMakeItYoursTitle": "Make it yours",
-  "welcomeMakeItYoursBody": "Mess around in Settings to tune Absorb to your taste. The Tips & Hidden Features section in there is worth a look.",
+  "welcomeMakeItYoursBody": "Mess around in Settings to tune Tomekeeper to your taste. The Tips & Hidden Features section in there is worth a look.",
   "getStarted": "Get Started",
   "showMore": "Show more",
   "showLess": "Show less",
@@ -1877,12 +1877,12 @@
   "includePreReleasesOnSubtitle": "On - checking for alpha & pre-release builds",
   "includePreReleasesOffSubtitle": "Off - stable releases only",
   "setTooltip": "Set",
-  "saveAbsorbBackup": "Save Absorb backup",
+  "saveAbsorbBackup": "Save Tomekeeper backup",
   "checkForUpdate": "Check for update",
   "onLatestVersion": "You're on the latest version",
   "updateAvailable": "Update available",
   "preReleaseAvailable": "Pre-release available",
-  "updateDialogContent": "A new {kind} of Absorb is available: {latest}\n\nYou are on {current}.",
+  "updateDialogContent": "A new {kind} of Tomekeeper is available: {latest}\n\nYou are on {current}.",
   "@updateDialogContent": {
     "placeholders": {
       "kind": {
@@ -1900,7 +1900,7 @@
   "updateKindVersion": "version",
   "downloadButton": "Download",
   "updateDownloading": "Downloading update...",
-  "updateInstallPermissionDenied": "Install permission denied. Enable \"Install unknown apps\" for Absorb in system settings.",
+  "updateInstallPermissionDenied": "Install permission denied. Enable \"Install unknown apps\" for Tomekeeper in system settings.",
   "updateOpeningInBrowser": "In-app update failed, opening browser",
   "sendToEreader": "Send to E-Reader",
   "sendingToEreader": "Sending to {device}...",

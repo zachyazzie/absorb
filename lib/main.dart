@@ -357,7 +357,7 @@ class AbsorbApp extends StatelessWidget {
 
             return MaterialApp(
               navigatorKey: rootNavigatorKey,
-              title: 'Absorb',
+              title: 'Tomekeeper',
               debugShowCheckedModeBanner: false,
               locale: overrideLocale,
               localizationsDelegates: AppLocalizations.localizationsDelegates,

@@ -121,7 +121,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'A B S O R B'**
+  /// **'TOMEKEEPER'**
   String get appTitle;
 
   /// No description provided for @online.
@@ -523,7 +523,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminSetupFileDescription.
   ///
   /// In en, this message translates to:
-  /// **'Creates a private sign-in link for {username} that only works in the Absorb app.'**
+  /// **'Creates a private sign-in link for {username} that only works in the Tomekeeper app.'**
   String adminSetupFileDescription(String username);
 
   /// No description provided for @adminSetupFileServerUrl.
@@ -625,7 +625,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupLinkShareSubject.
   ///
   /// In en, this message translates to:
-  /// **'Absorb sign-in for {username}'**
+  /// **'Tomekeeper sign-in for {username}'**
   String setupLinkShareSubject(String username);
 
   /// No description provided for @setupLinkConfirmTitle.
@@ -1675,13 +1675,13 @@ abstract class AppLocalizations {
   /// No description provided for @statsRemoveFromYearWithDate.
   ///
   /// In en, this message translates to:
-  /// **'The finished date will still be {date} on the server. This only removes \"{title}\" from your Absorb books-this-year list.'**
+  /// **'The finished date will still be {date} on the server. This only removes \"{title}\" from your Tomekeeper books-this-year list.'**
   String statsRemoveFromYearWithDate(String date, String title);
 
   /// No description provided for @statsRemoveFromYearNoDate.
   ///
   /// In en, this message translates to:
-  /// **'The finished date stays on the server. This only removes \"{title}\" from your Absorb books-this-year list.'**
+  /// **'The finished date stays on the server. This only removes \"{title}\" from your Tomekeeper books-this-year list.'**
   String statsRemoveFromYearNoDate(String title);
 
   /// No description provided for @statsRemovedFromYear.
@@ -1699,7 +1699,7 @@ abstract class AppLocalizations {
   /// No description provided for @statsAddBackToYearBody.
   ///
   /// In en, this message translates to:
-  /// **'Add \"{title}\" back to your Absorb books-this-year list?'**
+  /// **'Add \"{title}\" back to your Tomekeeper books-this-year list?'**
   String statsAddBackToYearBody(String title);
 
   /// No description provided for @statsAddBack.
@@ -2167,7 +2167,7 @@ abstract class AppLocalizations {
   /// No description provided for @languageHelpTranslateInvite.
   ///
   /// In en, this message translates to:
-  /// **'Want to help translate Absorb into your language?'**
+  /// **'Want to help translate Tomekeeper into your language?'**
   String get languageHelpTranslateInvite;
 
   /// No description provided for @themeLabel.
@@ -3619,7 +3619,7 @@ abstract class AppLocalizations {
   /// No description provided for @localServerInfoContent.
   ///
   /// In en, this message translates to:
-  /// **'If you run your Audiobookshelf server at home, you can set a local/LAN URL here. Absorb will automatically switch to the faster local connection when it detects you\'re on your home network, and fall back to your remote URL when you\'re away.'**
+  /// **'If you run your Audiobookshelf server at home, you can set a local/LAN URL here. Tomekeeper will automatically switch to the faster local connection when it detects you\'re on your home network, and fall back to your remote URL when you\'re away.'**
   String get localServerInfoContent;
 
   /// No description provided for @localServerOnConnectedSubtitle.
@@ -3673,7 +3673,7 @@ abstract class AppLocalizations {
   /// No description provided for @disableAudioFocusInfoContent.
   ///
   /// In en, this message translates to:
-  /// **'By default, Android gives audio \"focus\" to one app at a time - when Absorb plays, other audio (music, videos) will pause. Disabling audio focus lets Absorb play alongside other apps. Phone calls will still pause playback regardless of this setting.'**
+  /// **'By default, Android gives audio \"focus\" to one app at a time - when Tomekeeper plays, other audio (music, videos) will pause. Disabling audio focus lets Tomekeeper play alongside other apps. Phone calls will still pause playback regardless of this setting.'**
   String get disableAudioFocusInfoContent;
 
   /// No description provided for @disableAudioFocusOnSubtitle.
@@ -3685,7 +3685,7 @@ abstract class AppLocalizations {
   /// No description provided for @disableAudioFocusOffSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Off - other audio pauses when Absorb plays'**
+  /// **'Off - other audio pauses when Tomekeeper plays'**
   String get disableAudioFocusOffSubtitle;
 
   /// No description provided for @restartRequired.
@@ -3751,7 +3751,7 @@ abstract class AppLocalizations {
   /// No description provided for @trustAllCertificatesInfoContent.
   ///
   /// In en, this message translates to:
-  /// **'Enable this if your Audiobookshelf server uses a self-signed certificate or a custom root CA. When enabled, Absorb will skip TLS certificate verification for all connections. Only enable this if you trust your network.'**
+  /// **'Enable this if your Audiobookshelf server uses a self-signed certificate or a custom root CA. When enabled, Tomekeeper will skip TLS certificate verification for all connections. Only enable this if you trust your network.'**
   String get trustAllCertificatesInfoContent;
 
   /// No description provided for @trustAllCertificatesOnSubtitle.
@@ -3781,13 +3781,13 @@ abstract class AppLocalizations {
   /// No description provided for @appVersionFormat.
   ///
   /// In en, this message translates to:
-  /// **'Absorb v{version}'**
+  /// **'Tomekeeper v{version}'**
   String appVersionFormat(String version);
 
   /// No description provided for @appVersionWithServerFormat.
   ///
   /// In en, this message translates to:
-  /// **'Absorb v{version}  -  Server {serverVersion}'**
+  /// **'Tomekeeper v{version}  -  Server {serverVersion}'**
   String appVersionWithServerFormat(String version, String serverVersion);
 
   /// No description provided for @backupAndRestore.
@@ -3901,7 +3901,7 @@ abstract class AppLocalizations {
   /// No description provided for @fromAbsorbVersion.
   ///
   /// In en, this message translates to:
-  /// **'From Absorb v{version}'**
+  /// **'From Tomekeeper v{version}'**
   String fromAbsorbVersion(String version);
 
   /// No description provided for @restoreAccountsChip.
@@ -4021,7 +4021,7 @@ abstract class AppLocalizations {
   /// No description provided for @passwordChangeUnsupported.
   ///
   /// In en, this message translates to:
-  /// **'This server version does not support safe password changes in Absorb'**
+  /// **'This server version does not support safe password changes in Tomekeeper'**
   String get passwordChangeUnsupported;
 
   /// No description provided for @passwordChangeFailed.
@@ -4093,7 +4093,7 @@ abstract class AppLocalizations {
   /// No description provided for @sessionsLegacyNotice.
   ///
   /// In en, this message translates to:
-  /// **'This login does not have a refresh session, so Absorb cannot identify this device in the list.'**
+  /// **'This login does not have a refresh session, so Tomekeeper cannot identify this device in the list.'**
   String get sessionsLegacyNotice;
 
   /// No description provided for @sessionsRemove.
@@ -4375,7 +4375,7 @@ abstract class AppLocalizations {
   /// No description provided for @tipsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Get the most out of Absorb'**
+  /// **'Get the most out of Tomekeeper'**
   String get tipsSubtitle;
 
   /// No description provided for @adminTitle.
@@ -4633,13 +4633,13 @@ abstract class AppLocalizations {
   /// No description provided for @rmabConfigExplainerAdmin.
   ///
   /// In en, this message translates to:
-  /// **'ReadMeABook is a self-hosted service for requesting audiobooks. Generate an API token in RMAB under Admin Dashboard > Settings > API, then paste the server URL and token below. Absorb doesn\'t host or download any content, it just sends requests to your server.'**
+  /// **'ReadMeABook is a self-hosted service for requesting audiobooks. Generate an API token in RMAB under Admin Dashboard > Settings > API, then paste the server URL and token below. Tomekeeper doesn\'t host or download any content, it just sends requests to your server.'**
   String get rmabConfigExplainerAdmin;
 
   /// No description provided for @rmabConfigExplainerUser.
   ///
   /// In en, this message translates to:
-  /// **'ReadMeABook is a self-hosted service for requesting audiobooks. Ask your server admin for the RMAB URL and an API token. Absorb doesn\'t host or download any content, it just sends requests to your server.'**
+  /// **'ReadMeABook is a self-hosted service for requesting audiobooks. Ask your server admin for the RMAB URL and an API token. Tomekeeper doesn\'t host or download any content, it just sends requests to your server.'**
   String get rmabConfigExplainerUser;
 
   /// No description provided for @rmabConfigLearnMore.
@@ -6181,7 +6181,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeToAbsorb.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Absorb'**
+  /// **'Welcome to Tomekeeper'**
   String get welcomeToAbsorb;
 
   /// No description provided for @welcomeTagline.
@@ -6241,7 +6241,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeMakeItYoursBody.
   ///
   /// In en, this message translates to:
-  /// **'Mess around in Settings to tune Absorb to your taste. The Tips & Hidden Features section in there is worth a look.'**
+  /// **'Mess around in Settings to tune Tomekeeper to your taste. The Tips & Hidden Features section in there is worth a look.'**
   String get welcomeMakeItYoursBody;
 
   /// No description provided for @getStarted.
@@ -6731,7 +6731,7 @@ abstract class AppLocalizations {
   /// No description provided for @saveAbsorbBackup.
   ///
   /// In en, this message translates to:
-  /// **'Save Absorb backup'**
+  /// **'Save Tomekeeper backup'**
   String get saveAbsorbBackup;
 
   /// No description provided for @checkForUpdate.
@@ -6761,7 +6761,7 @@ abstract class AppLocalizations {
   /// No description provided for @updateDialogContent.
   ///
   /// In en, this message translates to:
-  /// **'A new {kind} of Absorb is available: {latest}\n\nYou are on {current}.'**
+  /// **'A new {kind} of Tomekeeper is available: {latest}\n\nYou are on {current}.'**
   String updateDialogContent(String kind, String latest, String current);
 
   /// No description provided for @updateKindPreRelease.
@@ -6791,7 +6791,7 @@ abstract class AppLocalizations {
   /// No description provided for @updateInstallPermissionDenied.
   ///
   /// In en, this message translates to:
-  /// **'Install permission denied. Enable \"Install unknown apps\" for Absorb in system settings.'**
+  /// **'Install permission denied. Enable \"Install unknown apps\" for Tomekeeper in system settings.'**
   String get updateInstallPermissionDenied;
 
   /// No description provided for @updateOpeningInBrowser.

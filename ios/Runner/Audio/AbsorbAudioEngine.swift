@@ -13,7 +13,7 @@ final class AbsorbAudioEngine: NSObject {
 
   weak var delegate: AbsorbAudioEngineDelegate?
 
-  private let queue = DispatchQueue(label: "com.barnabas.absorb.audioengine")
+  private let queue = DispatchQueue(label: "com.zachyazzie.tomekeeper.audioengine")
 
   private let player: AVPlayer = {
     let p = AVPlayer()
