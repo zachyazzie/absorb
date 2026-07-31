@@ -1048,6 +1048,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get appShellSettingsTab => 'Настройки';
 
   @override
+  String get appShellWishlistTab => 'Wishlist';
+
+  @override
+  String get appShellBookClubTab => 'Book Club';
+
+  @override
   String get appShellDiscoverTab => 'Discover';
 
   @override

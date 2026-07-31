@@ -1211,6 +1211,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SliverToBoxAdapter(
             child: AbsorbPageHeader(
               title: l.settingsTitle,
+              showBack: true,
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
             ),
           ),

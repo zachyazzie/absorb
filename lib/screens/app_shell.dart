@@ -24,8 +24,8 @@ import '../widgets/expanded_card.dart';
 import 'absorbing_screen.dart';
 import 'home_screen.dart';
 import 'library_screen.dart';
-import 'stats_screen.dart';
-import 'settings_screen.dart';
+import 'wishlist_screen.dart';
+import 'book_club_screen.dart';
 import 'app_shell_navigation_policy.dart';
 import '../widgets/library_picker_sheet.dart';
 import '../services/review_service.dart';
@@ -131,7 +131,7 @@ class _AppShellState extends State<AppShell>
     with WidgetsBindingObserver, TickerProviderStateMixin {
   static _AppShellState? _instance;
 
-  // Tabs: 0=Home, 1=Library, 2=Absorbing (default), 3=Stats, 4=Settings
+  // Tabs: 0=Home, 1=Library, 2=Absorbing (default), 3=Wishlist, 4=Book Club
   int _currentIndex = 2; // overridden by user preference in initState
 
   // Dedicated Podcasts tab (optional 6th destination, display order Home,
@@ -296,10 +296,10 @@ class _AppShellState extends State<AppShell>
         _pages[index] = AbsorbingScreen(key: AbsorbingScreen.globalKey);
         break;
       case 3:
-        _pages[index] = const StatsScreen();
+        _pages[index] = const WishlistScreen();
         break;
       case 4:
-        _pages[index] = const SettingsScreen();
+        _pages[index] = const BookClubScreen();
         break;
     }
   }
@@ -914,15 +914,15 @@ class _AppShellState extends State<AppShell>
         tooltip: '',
       ),
       NavigationDestination(
-        icon: const Icon(Icons.bar_chart_rounded),
-        selectedIcon: const Icon(Icons.bar_chart_rounded),
-        label: l.appShellStatsTab,
+        icon: const Icon(Icons.playlist_add_rounded),
+        selectedIcon: const Icon(Icons.playlist_add_check_rounded),
+        label: l.appShellWishlistTab,
         tooltip: '',
       ),
       NavigationDestination(
-        icon: const Icon(Icons.settings_outlined),
-        selectedIcon: const Icon(Icons.settings_rounded),
-        label: l.appShellSettingsTab,
+        icon: const Icon(Icons.groups_outlined),
+        selectedIcon: const Icon(Icons.groups_rounded),
+        label: l.appShellBookClubTab,
         tooltip: '',
       ),
     ];

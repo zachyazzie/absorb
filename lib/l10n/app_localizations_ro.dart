@@ -1048,6 +1048,12 @@ class AppLocalizationsRo extends AppLocalizations {
   String get appShellSettingsTab => 'Settings';
 
   @override
+  String get appShellWishlistTab => 'Wishlist';
+
+  @override
+  String get appShellBookClubTab => 'Book Club';
+
+  @override
   String get appShellDiscoverTab => 'Discover';
 
   @override

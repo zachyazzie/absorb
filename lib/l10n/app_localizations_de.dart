@@ -1056,6 +1056,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get appShellSettingsTab => 'Einstellungen';
 
   @override
+  String get appShellWishlistTab => 'Wishlist';
+
+  @override
+  String get appShellBookClubTab => 'Book Club';
+
+  @override
   String get appShellDiscoverTab => 'Entdecken';
 
   @override

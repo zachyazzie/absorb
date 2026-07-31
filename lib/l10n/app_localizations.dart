@@ -2008,6 +2008,18 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get appShellSettingsTab;
 
+  /// No description provided for @appShellWishlistTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Wishlist'**
+  String get appShellWishlistTab;
+
+  /// No description provided for @appShellBookClubTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Club'**
+  String get appShellBookClubTab;
+
   /// No description provided for @appShellDiscoverTab.
   ///
   /// In en, this message translates to:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
+import '../screens/settings_screen.dart';
 
 /// Consistent page header used across all screens.
 ///
@@ -15,6 +16,16 @@ class AbsorbPageHeader extends StatelessWidget {
   final Widget? trailing;
   final EdgeInsetsGeometry padding;
 
+  /// When true, a settings gear is shown next to the branding/cloud that opens
+  /// the Settings screen. Used on the main tab screens now that Settings is no
+  /// longer a bottom-nav tab.
+  final bool showSettings;
+
+  /// When true, a back chevron is shown before the branding that pops the
+  /// current route. Used on pushed pages (e.g. Settings) that have no other
+  /// way to dismiss.
+  final bool showBack;
+
   const AbsorbPageHeader({
     super.key,
     required this.title,
@@ -22,6 +33,8 @@ class AbsorbPageHeader extends StatelessWidget {
     this.titleColor,
     this.actions,
     this.trailing,
+    this.showSettings = false,
+    this.showBack = false,
     this.padding = const EdgeInsets.fromLTRB(20, 12, 20, 0),
   });
 
@@ -45,6 +58,20 @@ class AbsorbPageHeader extends StatelessWidget {
                 constraints: const BoxConstraints(minHeight: 32),
                 child: Row(
                   children: [
+                    if (showBack) ...[
+                      InkResponse(
+                        radius: 20,
+                        onTap: () => Navigator.of(context).maybePop(),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: Icon(
+                            Icons.arrow_back_rounded,
+                            size: 22,
+                            color: tColor,
+                          ),
+                        ),
+                      ),
+                    ],
                     Text(
                       l.appTitle,
                       style: tt.labelSmall?.copyWith(
@@ -56,6 +83,25 @@ class AbsorbPageHeader extends StatelessWidget {
                     if (trailing != null) ...[
                       const SizedBox(width: 8),
                       trailing!,
+                    ],
+                    if (showSettings) ...[
+                      const SizedBox(width: 2),
+                      InkResponse(
+                        radius: 18,
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const SettingsScreen(),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Icon(
+                            Icons.settings_outlined,
+                            size: 18,
+                            color: bColor,
+                          ),
+                        ),
+                      ),
                     ],
                     const Spacer(),
                     if (actions != null)

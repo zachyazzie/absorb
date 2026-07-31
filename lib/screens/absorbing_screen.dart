@@ -779,6 +779,7 @@ class _AbsorbingScreenState extends State<AbsorbingScreen> {
 
           final portraitHeader = AbsorbPageHeader(
             title: Wording.of(context).absorbingTitle,
+            showSettings: true,
             padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
             trailing: offlineIcon,
             actions: headerActions,

@@ -1037,6 +1037,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appShellSettingsTab => '设置';
 
   @override
+  String get appShellWishlistTab => 'Wishlist';
+
+  @override
+  String get appShellBookClubTab => 'Book Club';
+
+  @override
   String get appShellDiscoverTab => '发现';
 
   @override

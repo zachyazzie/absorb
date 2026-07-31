@@ -525,6 +525,8 @@
   "appShellAbsorbingTab": "Absorbing",
   "appShellStatsTab": "Stats",
   "appShellSettingsTab": "Settings",
+  "appShellWishlistTab": "Wishlist",
+  "appShellBookClubTab": "Book Club",
   "appShellDiscoverTab": "Discover",
   "appShellShowsTab": "Shows",
   "appShellPodcastsTab": "Podcasts",

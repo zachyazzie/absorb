@@ -1054,6 +1054,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appShellSettingsTab => 'Paramètres';
 
   @override
+  String get appShellWishlistTab => 'Wishlist';
+
+  @override
+  String get appShellBookClubTab => 'Book Club';
+
+  @override
   String get appShellDiscoverTab => 'Découvrir';
 
   @override

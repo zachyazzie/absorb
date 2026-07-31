@@ -276,6 +276,7 @@ class HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMi
                 SliverToBoxAdapter(
                   child: AbsorbPageHeader(
                     title: l.homeTitle,
+                    showSettings: true,
                     trailing: OfflineStatusIcon(
                       onTapWhenOnline: () {
                         lib.setManualOffline(true);

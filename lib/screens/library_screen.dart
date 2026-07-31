@@ -2607,6 +2607,7 @@ class LibraryScreenState extends State<LibraryScreen>
               children: [
                 AbsorbPageHeader(
                   title: l.libraryTitle,
+                  showSettings: true,
                   trailing: OfflineStatusIcon(
                     onTapWhenOnline: () {
                       lib.setManualOffline(true);
