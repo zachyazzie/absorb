@@ -55,6 +55,12 @@ class WishlistService {
         'Accept': 'application/json',
       };
 
+  /// Headers for image requests (e.g. the club cover proxy).
+  Map<String, String> get imageHeaders => {
+        ...customHeaders,
+        'Authorization': 'Bearer $token',
+      };
+
   // ─── Wishlist ──────────────────────────────────────────────────────
 
   /// GET /api/wishlist — full state (me, users, wanted, features).
@@ -108,6 +114,73 @@ class WishlistService {
     final res = await _send('GET', '/api/book/$asin', label: 'getBook');
     return _decode(res, WishlistSearchResult.fromJson, label: 'getBook');
   }
+
+  // ─── Book Club ─────────────────────────────────────────────────────
+
+  /// GET /api/club — current pick, members+progress, joined, nominations, me.
+  Future<ClubState> getClub() async {
+    final res = await _send('GET', '/api/club', label: 'getClub');
+    return _decode(res, ClubState.fromJson, label: 'getClub');
+  }
+
+  /// POST /api/club {itemId} — set the current pick (admin). Null clears it.
+  Future<void> setClub(String? itemId) async {
+    await _send('POST', '/api/club', body: {'itemId': itemId}, label: 'setClub');
+  }
+
+  /// POST /api/club/join — toggle membership; returns the new joined state.
+  Future<bool> toggleJoin() async {
+    final res = await _send('POST', '/api/club/join', label: 'joinClub');
+    final j = jsonDecode(res.body);
+    return j is Map && j['joined'] == true;
+  }
+
+  /// POST /api/club/goal {endDate: 'YYYY-MM-DD'|null} — finish-by goal (admin).
+  Future<void> setClubGoal(String? endDate) async {
+    await _send('POST', '/api/club/goal',
+        body: {'endDate': endDate}, label: 'clubGoal');
+  }
+
+  /// POST /api/club/nominate {itemId} — nominate for the next pick.
+  Future<void> nominate(String itemId) async {
+    await _send('POST', '/api/club/nominate',
+        body: {'itemId': itemId}, label: 'nominate', okCodes: const {200, 201});
+  }
+
+  /// POST /api/club/nominations/:id/vote — toggle your extra vote.
+  Future<void> voteNomination(String id) async {
+    await _send('POST', '/api/club/nominations/$id/vote', label: 'voteNom');
+  }
+
+  /// DELETE /api/club/nominations/:id — remove a nomination (owner/admin).
+  Future<void> removeNomination(String id) async {
+    await _send('DELETE', '/api/club/nominations/$id', label: 'removeNom');
+  }
+
+  /// GET /api/club/search?q= — search the ABS library for a pick/nominee.
+  Future<List<ClubLibraryItem>> clubSearch(String query) async {
+    final uri = Uri.parse('$baseUrl/api/club/search')
+        .replace(queryParameters: {'q': query});
+    final res = await _sendUri('GET', uri, label: 'clubSearch');
+    return _decode(res, (json) {
+      return (json['results'] as List<dynamic>? ?? const [])
+          .whereType<Map<String, dynamic>>()
+          .map(ClubLibraryItem.fromJson)
+          .toList();
+    }, label: 'clubSearch');
+  }
+
+  /// GET /api/club/item?item= — description + ASIN for a nominee.
+  Future<ClubItemDetail> clubItemDetail(String itemId) async {
+    final uri = Uri.parse('$baseUrl/api/club/item')
+        .replace(queryParameters: {'item': itemId});
+    final res = await _sendUri('GET', uri, label: 'clubItem');
+    return _decode(res, ClubItemDetail.fromJson, label: 'clubItem');
+  }
+
+  /// Cover proxy URL for the current club book (server-side ABS token).
+  String clubCoverUrl(String itemId) =>
+      '$baseUrl/api/club/cover?item=${Uri.encodeComponent(itemId)}';
 
   // ─── Shared transport ──────────────────────────────────────────────
 
@@ -367,6 +440,162 @@ class WishlistSearchResult {
         summary: json['summary'] as String?,
         owned: json['owned'] == true,
         wishlisted: json['wishlisted'] == true,
+      );
+}
+
+// ─── Book Club models ─────────────────────────────────────────────────
+
+class ClubState {
+  ClubState({
+    required this.me,
+    required this.book,
+    required this.members,
+    required this.joined,
+    required this.nominations,
+  });
+
+  final WishlistMe? me;
+  final ClubBook? book;
+  final List<ClubMember> members;
+  final bool joined;
+  final List<ClubNomination> nominations;
+
+  bool get admin => me?.admin ?? false;
+
+  factory ClubState.fromJson(Map<String, dynamic> j) => ClubState(
+        me: WishlistMe.fromJson(j['me']),
+        book: j['book'] is Map<String, dynamic>
+            ? ClubBook.fromJson(j['book'] as Map<String, dynamic>)
+            : null,
+        members: (j['members'] as List<dynamic>? ?? const [])
+            .whereType<Map<String, dynamic>>()
+            .map(ClubMember.fromJson)
+            .toList(),
+        joined: j['joined'] == true,
+        nominations: (j['nominations'] as List<dynamic>? ?? const [])
+            .whereType<Map<String, dynamic>>()
+            .map(ClubNomination.fromJson)
+            .toList(),
+      );
+}
+
+class ClubBook {
+  ClubBook({
+    required this.itemId,
+    required this.title,
+    required this.author,
+    this.narrator,
+    this.series,
+    this.durationSec,
+    this.setBy,
+    this.endDate,
+  });
+
+  final String itemId;
+  final String title;
+  final String author;
+  final String? narrator;
+  final String? series;
+  final double? durationSec;
+  final String? setBy;
+  final String? endDate;
+
+  factory ClubBook.fromJson(Map<String, dynamic> j) => ClubBook(
+        itemId: (j['itemId'] ?? '') as String,
+        title: (j['title'] ?? '') as String,
+        author: (j['author'] ?? '') as String,
+        narrator: j['narrator'] as String?,
+        series: j['series'] as String?,
+        durationSec: (j['duration'] as num?)?.toDouble(),
+        setBy: j['setBy'] as String?,
+        endDate: j['endDate'] as String?,
+      );
+}
+
+class ClubMember {
+  ClubMember({required this.name, required this.progress, required this.isFinished});
+  final String name;
+  final double progress; // 0..1
+  final bool isFinished;
+
+  factory ClubMember.fromJson(Map<String, dynamic> j) => ClubMember(
+        name: (j['name'] ?? '') as String,
+        progress: (j['progress'] as num?)?.toDouble() ?? 0,
+        isFinished: j['isFinished'] == true,
+      );
+}
+
+class ClubNomination {
+  ClubNomination({
+    required this.id,
+    required this.itemId,
+    required this.title,
+    required this.author,
+    this.durationSec,
+    required this.submittedBy,
+    required this.score,
+    required this.mine,
+    required this.voted,
+  });
+
+  final String id;
+  final String itemId;
+  final String title;
+  final String author;
+  final double? durationSec;
+  final String submittedBy;
+  final int score;
+  final bool mine;
+  final bool voted;
+
+  factory ClubNomination.fromJson(Map<String, dynamic> j) => ClubNomination(
+        id: (j['id'] ?? '') as String,
+        itemId: (j['itemId'] ?? '') as String,
+        title: (j['title'] ?? '') as String,
+        author: (j['author'] ?? '') as String,
+        durationSec: (j['duration'] as num?)?.toDouble(),
+        submittedBy: (j['submittedBy'] ?? '') as String,
+        score: _asInt(j['score']) ?? 0,
+        mine: j['mine'] == true,
+        voted: j['voted'] == true,
+      );
+}
+
+class ClubLibraryItem {
+  ClubLibraryItem({
+    required this.id,
+    required this.title,
+    required this.author,
+    this.narrator,
+    this.series,
+    this.durationSec,
+  });
+
+  final String id;
+  final String title;
+  final String author;
+  final String? narrator;
+  final String? series;
+  final double? durationSec;
+
+  factory ClubLibraryItem.fromJson(Map<String, dynamic> j) => ClubLibraryItem(
+        id: (j['id'] ?? '') as String,
+        title: (j['title'] ?? '') as String,
+        author: (j['author'] ?? '') as String,
+        narrator: j['narrator'] as String?,
+        series: j['series'] as String?,
+        durationSec: (j['duration'] as num?)?.toDouble(),
+      );
+}
+
+class ClubItemDetail {
+  ClubItemDetail({this.summary, this.asin});
+  final String? summary;
+  final String? asin;
+
+  factory ClubItemDetail.fromJson(Map<String, dynamic> j) => ClubItemDetail(
+        summary: j['summary'] as String?,
+        asin: j['asin'] as String?,
       );
 }
 
