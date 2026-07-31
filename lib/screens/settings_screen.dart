@@ -1087,24 +1087,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onChanged: (v) => Navigator.pop(ctx, v),
                 title: Text(_languageDisplayName(code, l)),
               ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-              child: InkWell(
-                onTap: () => launchUrl(
-                  Uri.parse('https://crowdin.com/project/absorb'),
-                  mode: LaunchMode.externalApplication,
-                ),
-                child: Text(
-                  l.languageHelpTranslateInvite,
-                  style: tt.bodySmall?.copyWith(
-                    color: cs.primary,
-                    decoration: TextDecoration.underline,
-                    decorationColor: cs.primary.withValues(alpha: 0.6),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+            const SizedBox(height: 8),
           ],
         ),
       ),
@@ -3320,33 +3303,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       trailing: Icon(Icons.open_in_new_rounded,
                           size: 18, color: cs.onSurfaceVariant),
                       onTap: () => launchUrl(
-                          Uri.parse('https://github.com/pounat/absorb/issues'),
+                          Uri.parse('https://github.com/zachyazzie/absorb/issues'),
                           mode: LaunchMode.externalApplication),
-                    ),
-                    const Divider(height: 1, indent: 16, endIndent: 16),
-                    ListTile(
-                      leading: Icon(Icons.discord, color: cs.onSurfaceVariant),
-                      title: Text(l.joinDiscord),
-                      subtitle: Text(l.joinDiscordSubtitle,
-                        style: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant)),
-                      trailing: Icon(Icons.open_in_new_rounded,
-                          size: 18, color: cs.onSurfaceVariant),
-                      onTap: () => launchUrl(
-                          Uri.parse('https://discord.gg/bwH6hdvzZ4'),
-                          mode: LaunchMode.externalApplication),
-                    ),
-                    const Divider(height: 1, indent: 16, endIndent: 16),
-                    ListTile(
-                      leading: Icon(Icons.email_outlined, color: cs.primary),
-                      title: Text(l.contact),
-                      subtitle: Text(l.contactSubtitle,
-                        style: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant)),
-                      trailing: const Icon(Icons.chevron_right_rounded),
-                      onTap: () {
-                        LogService().contactEmail(
-                          serverVersion: auth.serverVersion,
-                        );
-                      },
                     ),
                     const Divider(height: 1, indent: 16, endIndent: 16),
                     SwitchListTile(
@@ -3547,37 +3505,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-
-                // ── Support the Dev ──
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    children: [
-                      Card(
-                        color: cs.surfaceContainerHigh,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14)),
-                        clipBehavior: Clip.antiAlias,
-                        child: ListTile(
-                          leading: Icon(Icons.coffee_rounded,
-                              color: Colors.amber.shade600),
-                          title: Text(l.supportTheDev),
-                          subtitle: Text(l.buyMeACoffee,
-                              style: tt.bodySmall
-                                  ?.copyWith(color: cs.onSurfaceVariant)),
-                          trailing: Icon(Icons.favorite_rounded,
-                              size: 18, color: Colors.amber.shade600),
-                          onTap: () => launchUrl(
-                              Uri.parse(
-                                  'https://www.buymeacoffee.com/BarnabasApps'),
-                              mode: LaunchMode.externalApplication),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
                 const SizedBox(height: 16),
 
                 // ── Backup & Restore ──

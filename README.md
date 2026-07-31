@@ -1,7 +1,5 @@
 # Absorb
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/BarnabasApps)
-
 A modern audiobookshelf client with a card-based player experience.
 
 > **A note on AI:** Absorb is developed by a human with AI assistance (mostly Claude Code) helping write, refactor, and review code. It's not "vibe coded" or auto-generated, every change is reviewed, tested, and shipped intentionally. That said, I'm all in on AI as a development tool. It massively speeds up the work and lets a solo developer ship features and fixes at a pace that wouldn't be possible otherwise. I'm sharing this openly so you know what's behind the app.
@@ -53,12 +51,6 @@ A modern audiobookshelf client with a card-based player experience.
 - **Homescreen widgets** — now-playing widget on Android and iOS
 - **Car mode** — large-button driving UI for use without Android Auto
 - **Localization** — community translations via Crowdin
-
-## Translations
-
-[![Crowdin](https://badges.crowdin.net/absorb/localized.svg)](https://crowdin.com/project/absorb)
-
-Absorb is translated by the community on [Crowdin](https://crowdin.com/project/absorb). Want your language added or improved? Jump in, no coding needed.
 
 ## Install
 

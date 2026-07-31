@@ -49,7 +49,7 @@ int _compareVersions(String a, String b) {
 }
 
 class UpdateCheckerService {
-  static const _repo = 'pounat/absorb'; // Update this to your repo
+  static const _repo = 'zachyazzie/absorb';
   static const _checkInterval = Duration(hours: 12);
   static const _dismissedKey = 'update_dismissed_version';
   static const _lastCheckKey = 'update_last_check';

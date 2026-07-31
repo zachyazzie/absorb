@@ -3,15 +3,12 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'api_service.dart';
 
 class LogService {
   static final LogService _instance = LogService._();
   factory LogService() => _instance;
   LogService._();
-
-  static const supportEmail = 'absorb@barnabashq.com';
 
   // Keep 1MB max, trim to 512KB.
   static const _maxSize = 1 * 1024 * 1024; // 1 MB
@@ -280,36 +277,16 @@ class LogService {
 
       await Share.shareXFiles(
         [XFile(sanitizedFile.path)],
-        subject: 'Absorb Log Report',
-        text: 'Send to: $supportEmail\n\n$info',
+        subject: 'Tomekeeper Log Report',
+        text: info,
         sharePositionOrigin: sharePositionOrigin,
       );
     } else {
       await Share.share(
-        'Send to: $supportEmail\n\n$info\n(No log file found — is logging enabled?)',
-        subject: 'Absorb Log Report',
+        '$info\n(No log file found — is logging enabled?)',
+        subject: 'Tomekeeper Log Report',
         sharePositionOrigin: sharePositionOrigin,
       );
     }
-  }
-
-  /// Open a mailto: link with device info (no logs) for general contact.
-  Future<void> contactEmail({String? serverVersion}) async {
-    final info = _deviceInfo(serverVersion: serverVersion);
-    final uri = Uri(
-      scheme: 'mailto',
-      path: supportEmail,
-      query: _encodeMailtoQuery({
-        'subject': 'Absorb Feedback',
-        'body': info,
-      }),
-    );
-    await launchUrl(uri);
-  }
-
-  String _encodeMailtoQuery(Map<String, String> params) {
-    return params.entries
-        .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')
-        .join('&');
   }
 }
