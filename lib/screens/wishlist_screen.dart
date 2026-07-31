@@ -7,8 +7,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
+import '../providers/library_provider.dart';
 import '../services/wishlist_service.dart';
 import '../widgets/absorb_page_header.dart';
+import '../widgets/offline_status_icon.dart';
 
 /// Group audiobook wishlist — search Audible, add titles, up/down vote on what
 /// to buy next, and claim ("I'm grabbing this"). Backed by [WishlistService].
@@ -148,7 +150,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       builder: (_) => _SynopsisSheet(
         service: svc,
-        book: book,
+        asin: book.asin,
+        title: book.title,
+        author: book.author,
+        narrator: book.narrator,
+        series: book.series,
+        seriesPosition: book.seriesPosition,
+        lengthMin: book.lengthMin,
+        coverUrl: book.coverUrl,
+        initialSummary: book.summary,
         onOpenAudible: () => _openAudible(book.asin),
       ),
     );
@@ -201,6 +211,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
           AbsorbPageHeader(
             title: l.appShellWishlistTab,
             showSettings: true,
+            trailing: OfflineStatusIcon(
+              onTapWhenOnline: () =>
+                  context.read<LibraryProvider>().setManualOffline(true),
+            ),
             actions: [
               if (_service != null)
                 IconButton(
@@ -501,32 +515,64 @@ class _WishlistTile extends StatelessWidget {
 class _SynopsisSheet extends StatefulWidget {
   const _SynopsisSheet({
     required this.service,
-    required this.book,
+    required this.asin,
+    required this.title,
+    required this.author,
+    this.narrator,
+    this.series,
+    this.seriesPosition,
+    this.lengthMin,
+    this.coverUrl,
+    this.initialSummary,
     required this.onOpenAudible,
+    this.owned = false,
+    this.initiallyAdded = false,
+    this.onAdd,
   });
+
   final WishlistService service;
-  final WishlistBook book;
+  final String asin;
+  final String title;
+  final String author;
+  final String? narrator;
+  final String? series;
+  final String? seriesPosition;
+  final int? lengthMin;
+  final String? coverUrl;
+  final String? initialSummary;
   final VoidCallback onOpenAudible;
+
+  /// Search context: already in the owned library.
+  final bool owned;
+
+  /// Search context: already on the wishlist at open time.
+  final bool initiallyAdded;
+
+  /// Search context: add to the wishlist. When null, no add button is shown
+  /// (wishlist context — it's already on the list).
+  final Future<void> Function()? onAdd;
 
   @override
   State<_SynopsisSheet> createState() => _SynopsisSheetState();
 }
 
 class _SynopsisSheetState extends State<_SynopsisSheet> {
-  late String? _summary = widget.book.summary;
+  late String? _summary = widget.initialSummary;
   bool _loadingSummary = true;
   int? _lengthMin;
+  late bool _added = widget.initiallyAdded;
+  bool _adding = false;
 
   @override
   void initState() {
     super.initState();
-    _lengthMin = widget.book.lengthMin;
+    _lengthMin = widget.lengthMin;
     _fetch();
   }
 
   Future<void> _fetch() async {
     try {
-      final d = await widget.service.getBook(widget.book.asin);
+      final d = await widget.service.getBook(widget.asin);
       if (!mounted) return;
       setState(() {
         if ((d.summary ?? '').isNotEmpty) _summary = d.summary;
@@ -539,6 +585,17 @@ class _SynopsisSheetState extends State<_SynopsisSheet> {
     }
   }
 
+  Future<void> _handleAdd() async {
+    if (widget.onAdd == null || _added || _adding) return;
+    setState(() => _adding = true);
+    try {
+      await widget.onAdd!();
+      if (mounted) setState(() => _added = true);
+    } finally {
+      if (mounted) setState(() => _adding = false);
+    }
+  }
+
   String? _lengthLabel() {
     final m = _lengthMin;
     if (m == null || m <= 0) return null;
@@ -547,21 +604,49 @@ class _SynopsisSheetState extends State<_SynopsisSheet> {
     return h > 0 ? '${h}h' : '${mm}m';
   }
 
+  Widget? _addButton(ColorScheme cs) {
+    if (widget.owned) {
+      return OutlinedButton.icon(
+        onPressed: null,
+        icon: const Icon(Icons.check_circle_outline_rounded, size: 18),
+        label: const Text('Owned'),
+      );
+    }
+    if (widget.onAdd == null) return null;
+    if (_added) {
+      return OutlinedButton.icon(
+        onPressed: null,
+        icon: const Icon(Icons.check_rounded, size: 18),
+        label: const Text('Added to wishlist'),
+      );
+    }
+    return FilledButton.tonalIcon(
+      onPressed: _adding ? null : _handleAdd,
+      icon: _adding
+          ? const SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2))
+          : const Icon(Icons.playlist_add_rounded, size: 18),
+      label: const Text('Add to wishlist'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
-    final b = widget.book;
-    final seriesLabel = (b.series?.isNotEmpty ?? false)
-        ? (b.seriesPosition?.isNotEmpty == true
-            ? '${b.series} #${b.seriesPosition}'
-            : b.series!)
+    final seriesLabel = (widget.series?.isNotEmpty ?? false)
+        ? (widget.seriesPosition?.isNotEmpty == true
+            ? '${widget.series} #${widget.seriesPosition}'
+            : widget.series!)
         : null;
     final meta = [
-      if (b.narrator?.isNotEmpty == true) 'Narrated by ${b.narrator}',
+      if (widget.narrator?.isNotEmpty == true) 'Narrated by ${widget.narrator}',
       if (seriesLabel != null) seriesLabel,
       if (_lengthLabel() != null) _lengthLabel()!,
     ];
+    final addBtn = _addButton(cs);
 
     return DraggableScrollableSheet(
       expand: false,
@@ -592,9 +677,9 @@ class _SynopsisSheetState extends State<_SynopsisSheet> {
                       child: SizedBox(
                         width: 88,
                         height: 88,
-                        child: (b.coverUrl?.isNotEmpty ?? false)
+                        child: (widget.coverUrl?.isNotEmpty ?? false)
                             ? CachedNetworkImage(
-                                imageUrl: b.coverUrl!, fit: BoxFit.cover)
+                                imageUrl: widget.coverUrl!, fit: BoxFit.cover)
                             : Container(
                                 color: cs.surfaceContainerHighest,
                                 child: Icon(Icons.menu_book_rounded,
@@ -607,11 +692,11 @@ class _SynopsisSheetState extends State<_SynopsisSheet> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(b.title,
+                          Text(widget.title,
                               style: tt.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w700)),
                           const SizedBox(height: 2),
-                          Text(b.author,
+                          Text(widget.author,
                               style: tt.bodyMedium
                                   ?.copyWith(color: cs.onSurfaceVariant)),
                           if (meta.isNotEmpty) ...[
@@ -635,6 +720,10 @@ class _SynopsisSheetState extends State<_SynopsisSheet> {
                     label: const Text('Open in Audible'),
                   ),
                 ),
+                if (addBtn != null) ...[
+                  const SizedBox(height: 10),
+                  SizedBox(width: double.infinity, child: addBtn),
+                ],
                 const SizedBox(height: 20),
                 Text('Synopsis',
                     style: tt.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
@@ -747,6 +836,39 @@ class _WishlistSearchSheetState extends State<_WishlistSearchSheet> {
     }
   }
 
+  Future<void> _openAudible(String asin) async {
+    if (asin.isEmpty) return;
+    final ok = await launchUrl(Uri.parse('https://www.audible.com/pd/$asin'),
+        mode: LaunchMode.externalApplication);
+    if (!ok) _toast('Couldn\'t open Audible');
+  }
+
+  Future<void> _openSynopsis(WishlistSearchResult r) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      builder: (_) => _SynopsisSheet(
+        service: widget.service,
+        asin: r.asin,
+        title: r.title,
+        author: r.author,
+        narrator: r.narrator,
+        series: r.series,
+        seriesPosition: r.seriesPosition,
+        lengthMin: r.lengthMin,
+        coverUrl: r.coverUrl,
+        initialSummary: r.summary,
+        onOpenAudible: () => _openAudible(r.asin),
+        owned: r.owned,
+        initiallyAdded: _added.contains(r.asin) || r.wishlisted,
+        onAdd: r.owned ? null : () => _add(r),
+      ),
+    );
+    if (mounted) setState(() {}); // reflect an add made inside the sheet
+  }
+
   void _toast(String msg) {
     if (!mounted) return;
     ScaffoldMessenger.of(context)
@@ -837,14 +959,18 @@ class _WishlistSearchSheetState extends State<_WishlistSearchSheet> {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: SizedBox(
-                width: 44,
-                height: 44,
-                child: r.coverUrl != null && r.coverUrl!.isNotEmpty
-                    ? CachedNetworkImage(imageUrl: r.coverUrl!, fit: BoxFit.cover)
-                    : Container(color: cs.surfaceContainerHighest),
+            GestureDetector(
+              onTap: () => _openSynopsis(r),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: SizedBox(
+                  width: 44,
+                  height: 44,
+                  child: r.coverUrl != null && r.coverUrl!.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: r.coverUrl!, fit: BoxFit.cover)
+                      : Container(color: cs.surfaceContainerHighest),
+                ),
               ),
             ),
             const SizedBox(width: 10),
@@ -852,14 +978,45 @@ class _WishlistSearchSheetState extends State<_WishlistSearchSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(r.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: tt.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+                  GestureDetector(
+                    onTap: () => _openSynopsis(r),
+                    child: Text(r.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: tt.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600)),
+                  ),
                   Text(r.author,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant)),
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => _openSynopsis(r),
+                        child: Text('Read synopsis',
+                            style: tt.labelSmall?.copyWith(
+                                color: cs.primary,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                      Text('   ·   ',
+                          style: tt.labelSmall
+                              ?.copyWith(color: cs.onSurfaceVariant)),
+                      GestureDetector(
+                        onTap: () => _openAudible(r.asin),
+                        child: Row(mainAxisSize: MainAxisSize.min, children: [
+                          Icon(Icons.open_in_new_rounded,
+                              size: 12, color: cs.primary),
+                          const SizedBox(width: 3),
+                          Text('Audible',
+                              style: tt.labelSmall?.copyWith(
+                                  color: cs.primary,
+                                  fontWeight: FontWeight.w600)),
+                        ]),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

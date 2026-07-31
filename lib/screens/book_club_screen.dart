@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
+import '../providers/library_provider.dart';
 import '../widgets/absorb_page_header.dart';
+import '../widgets/offline_status_icon.dart';
 
 /// Group book club — current pick, per-member progress, join/leave, and
 /// nominations/voting for the next book. Backed by the wishlist server.
@@ -17,7 +20,14 @@ class BookClubScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AbsorbPageHeader(title: l.appShellBookClubTab, showSettings: true),
+          AbsorbPageHeader(
+            title: l.appShellBookClubTab,
+            showSettings: true,
+            trailing: OfflineStatusIcon(
+              onTapWhenOnline: () =>
+                  context.read<LibraryProvider>().setManualOffline(true),
+            ),
+          ),
           Expanded(
             child: Center(
               child: Text(
