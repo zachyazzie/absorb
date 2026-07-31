@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
-import '../providers/auth_provider.dart';
+import '../providers/wishlist_provider.dart';
 import '../providers/library_provider.dart';
 import '../services/wishlist_service.dart';
 import '../widgets/absorb_page_header.dart';
@@ -23,97 +23,55 @@ class BookClubScreen extends StatefulWidget {
 }
 
 class _BookClubScreenState extends State<BookClubScreen> {
-  WishlistService? _service;
-  ClubState? _state;
-  bool _loading = true;
-  Object? _error;
-
+  WishlistProvider get _p => context.read<WishlistProvider>();
+  ClubState? get _state => _p.club;
   bool get _admin => _state?.admin ?? false;
 
   @override
   void initState() {
     super.initState();
-    _service = _buildService();
-    _load();
-  }
-
-  WishlistService? _buildService() {
-    final auth = context.read<AuthProvider>();
-    final base = WishlistService.deriveBaseUrl(auth.activeServerUrl);
-    final token = auth.token;
-    if (base == null || token == null || token.isEmpty) return null;
-    return WishlistService(
-      baseUrl: base,
-      token: token,
-      customHeaders: auth.customHeaders,
-    );
-  }
-
-  Future<void> _load() async {
-    final svc = _service;
-    if (svc == null) {
-      setState(() {
-        _loading = false;
-        _error = 'not_connected';
-      });
-      return;
-    }
-    setState(() {
-      _loading = _state == null;
-      _error = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _p.loadClub();
     });
-    try {
-      final state = await svc.getClub();
-      if (!mounted) return;
-      setState(() {
-        _state = state;
-        _loading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _error = e;
-        _loading = false;
-      });
-    }
   }
 
   Future<void> _run(Future<void> Function() action) async {
+    if (_p.service == null) return;
     try {
       await action();
-      await _load();
+      await _p.refreshClub();
     } catch (e) {
       _toast(_errorText(e));
     }
   }
 
-  Future<void> _toggleJoin() => _run(() => _service!.toggleJoin());
+  Future<void> _toggleJoin() => _run(() => _p.service!.toggleJoin());
   Future<void> _voteNomination(String id) =>
-      _run(() => _service!.voteNomination(id));
+      _run(() => _p.service!.voteNomination(id));
 
   Future<void> _nominate() async {
     final item = await _pickLibraryItem('Nominate a book');
     if (item != null) {
-      await _run(() => _service!.nominate(item.id));
+      await _run(() => _p.service!.nominate(item.id));
     }
   }
 
   Future<void> _setPick() async {
     final item = await _pickLibraryItem('Set the club pick');
     if (item != null) {
-      await _run(() => _service!.setClub(item.id));
+      await _run(() => _p.service!.setClub(item.id));
     }
   }
 
   Future<void> _endPick() async {
     final ok = await _confirm('End this pick?',
         'The current book club pick will be cleared.');
-    if (ok) await _run(() => _service!.setClub(null));
+    if (ok) await _run(() => _p.service!.setClub(null));
   }
 
   Future<void> _removeNomination(ClubNomination n) async {
     final ok = await _confirm('Remove nomination?', '"${n.title}" will be removed.');
-    if (ok) await _run(() => _service!.removeNomination(n.id));
+    if (ok) await _run(() => _p.service!.removeNomination(n.id));
   }
 
   Future<void> _setGoal() async {
@@ -130,10 +88,10 @@ class _BookClubScreenState extends State<BookClubScreen> {
     final iso = '${picked.year.toString().padLeft(4, '0')}-'
         '${picked.month.toString().padLeft(2, '0')}-'
         '${picked.day.toString().padLeft(2, '0')}';
-    await _run(() => _service!.setClubGoal(iso));
+    await _run(() => _p.service!.setClubGoal(iso));
   }
 
-  Future<void> _clearGoal() => _run(() => _service!.setClubGoal(null));
+  Future<void> _clearGoal() => _run(() => _p.service!.setClubGoal(null));
 
   Future<ClubLibraryItem?> _pickLibraryItem(String title) {
     return showModalBottomSheet<ClubLibraryItem>(
@@ -141,7 +99,7 @@ class _BookClubScreenState extends State<BookClubScreen> {
       isScrollControlled: true,
       useSafeArea: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      builder: (_) => _ClubLibrarySearchSheet(service: _service!, title: title),
+      builder: (_) => _ClubLibrarySearchSheet(service: _p.service!, title: title),
     );
   }
 
@@ -151,7 +109,7 @@ class _BookClubScreenState extends State<BookClubScreen> {
       isScrollControlled: true,
       useSafeArea: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      builder: (_) => _NomineeDetailSheet(service: _service!, nomination: n),
+      builder: (_) => _NomineeDetailSheet(service: _p.service!, nomination: n),
     );
   }
 
@@ -202,6 +160,7 @@ class _BookClubScreenState extends State<BookClubScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final p = context.watch<WishlistProvider>();
     return SafeArea(
       bottom: false,
       child: Column(
@@ -215,28 +174,28 @@ class _BookClubScreenState extends State<BookClubScreen> {
                   context.read<LibraryProvider>().setManualOffline(true),
             ),
           ),
-          Expanded(child: _buildBody()),
+          Expanded(child: _buildBody(p)),
         ],
       ),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(WishlistProvider p) {
     final cs = Theme.of(context).colorScheme;
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
-    }
-    if (_service == null) {
+    if (p.service == null) {
       return _centered('Sign in to your server to use the book club', cs,
           Icons.lock_outline);
     }
-    if (_error != null && _state == null) {
-      return _centered(_errorText(_error!), cs, Icons.cloud_off_rounded,
-          onRetry: _load);
+    if (p.clubLoading && p.club == null) {
+      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
     }
-    final state = _state!;
+    if (p.clubError != null && p.club == null) {
+      return _centered(_errorText(p.clubError!), cs, Icons.cloud_off_rounded,
+          onRetry: () => p.refreshClub());
+    }
+    final state = p.club!;
     return RefreshIndicator(
-      onRefresh: _load,
+      onRefresh: () => p.refreshClub(),
       child: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
         children: [
@@ -324,8 +283,8 @@ class _BookClubScreenState extends State<BookClubScreen> {
                   width: 84,
                   height: 84,
                   child: CachedNetworkImage(
-                    imageUrl: _service!.clubCoverUrl(b.itemId),
-                    httpHeaders: _service!.imageHeaders,
+                    imageUrl: _p.service!.clubCoverUrl(b.itemId),
+                    httpHeaders: _p.service!.imageHeaders,
                     fit: BoxFit.cover,
                     placeholder: (_, __) =>
                         Container(color: cs.surfaceContainerHighest),

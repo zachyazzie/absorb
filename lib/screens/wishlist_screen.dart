@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
-import '../providers/auth_provider.dart';
 import '../providers/library_provider.dart';
+import '../providers/wishlist_provider.dart';
 import '../services/wishlist_service.dart';
 import '../widgets/absorb_page_header.dart';
 import '../widgets/offline_status_icon.dart';
@@ -22,83 +22,33 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
-  WishlistService? _service;
-  WishlistState? _state;
-  bool _loading = true;
-  Object? _error;
-
-  String? get _me => _state?.me?.name;
-  bool get _admin => _state?.me?.admin ?? false;
+  WishlistProvider get _p => context.read<WishlistProvider>();
+  String? get _me => _p.wishlist?.me?.name;
+  bool get _admin => _p.wishlist?.me?.admin ?? false;
 
   @override
   void initState() {
     super.initState();
-    _service = _buildService();
-    _load();
-  }
-
-  WishlistService? _buildService() {
-    final auth = context.read<AuthProvider>();
-    final base = WishlistService.deriveBaseUrl(auth.activeServerUrl);
-    final token = auth.token;
-    if (base == null || token == null || token.isEmpty) return null;
-    return WishlistService(
-      baseUrl: base,
-      token: token,
-      customHeaders: auth.customHeaders,
-    );
-  }
-
-  Future<void> _load() async {
-    final svc = _service;
-    if (svc == null) {
-      setState(() {
-        _loading = false;
-        _error = 'not_connected';
-      });
-      return;
-    }
-    setState(() {
-      _loading = _state == null;
-      _error = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _p.loadWishlist();
     });
-    try {
-      final state = await svc.getWishlist();
-      if (!mounted) return;
-      setState(() {
-        _state = state;
-        _loading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _error = e;
-        _loading = false;
-      });
-    }
-  }
-
-  void _replaceBook(WishlistBook updated) {
-    final list = _state?.wanted;
-    if (list == null) return;
-    final i = list.indexWhere((b) => b.id == updated.id);
-    if (i < 0) return;
-    setState(() => list[i] = updated);
   }
 
   Future<void> _vote(WishlistBook book, int dir) async {
+    final svc = _p.service;
+    if (svc == null) return;
     try {
-      final updated = await _service!.vote(book.id, dir);
-      _replaceBook(updated);
+      _p.applyWishlistBook(await svc.vote(book.id, dir));
     } catch (e) {
       _toast(_errorText(e));
     }
   }
 
   Future<void> _claim(WishlistBook book) async {
+    final svc = _p.service;
+    if (svc == null) return;
     try {
-      final updated = await _service!.claim(book.id);
-      _replaceBook(updated);
+      _p.applyWishlistBook(await svc.claim(book.id));
     } on WishlistException catch (e) {
       _toast(e.kind == WishlistErrorKind.conflict
           ? 'Someone else already called dibs'
@@ -109,6 +59,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
 
   Future<void> _remove(WishlistBook book) async {
+    final svc = _p.service;
+    if (svc == null) return;
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -126,8 +78,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
     if (ok != true) return;
     try {
-      await _service!.removeItem(book.id);
-      setState(() => _state?.wanted.removeWhere((b) => b.id == book.id));
+      await svc.removeItem(book.id);
+      _p.removeWishlistBook(book.id);
     } catch (e) {
       _toast(_errorText(e));
     }
@@ -141,7 +93,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
 
   Future<void> _openSynopsis(WishlistBook book) async {
-    final svc = _service;
+    final svc = _p.service;
     if (svc == null) return;
     await showModalBottomSheet<void>(
       context: context,
@@ -165,7 +117,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
 
   Future<void> _openSearch() async {
-    final svc = _service;
+    final svc = _p.service;
     if (svc == null) return;
     await showModalBottomSheet<void>(
       context: context,
@@ -174,7 +126,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       builder: (_) => _WishlistSearchSheet(service: svc),
     );
-    _load(); // refresh after possible adds
+    if (mounted) _p.refreshWishlist(); // refresh after possible adds
   }
 
   String _errorText(Object e) {
@@ -203,6 +155,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final p = context.watch<WishlistProvider>();
     return SafeArea(
       bottom: false,
       child: Column(
@@ -216,7 +169,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                   context.read<LibraryProvider>().setManualOffline(true),
             ),
             actions: [
-              if (_service != null)
+              if (p.service != null)
                 IconButton(
                   icon: const Icon(Icons.add_rounded),
                   tooltip: 'Search & add',
@@ -224,48 +177,51 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 ),
             ],
           ),
-          Expanded(child: _buildBody()),
+          Expanded(child: _buildBody(p)),
         ],
       ),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(WishlistProvider p) {
     final cs = Theme.of(context).colorScheme;
-    if (_loading) {
-      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
-    }
-    if (_service == null) {
+    if (p.service == null) {
       return _centered(
           'Sign in to your server to use the wishlist', cs, Icons.lock_outline);
     }
-    if (_error != null && _state == null) {
-      return _centered(_errorText(_error!), cs, Icons.cloud_off_rounded,
-          onRetry: _load);
+    if (p.wishlistLoading && p.wishlist == null) {
+      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
     }
-    final wanted = [...?_state?.wanted]..sort((a, b) => b.score.compareTo(a.score));
+    if (p.wishlistError != null && p.wishlist == null) {
+      return _centered(_errorText(p.wishlistError!), cs, Icons.cloud_off_rounded,
+          onRetry: () => p.refreshWishlist());
+    }
+    final wanted = [...?p.wishlist?.wanted]
+      ..sort((a, b) => b.score.compareTo(a.score));
     if (wanted.isEmpty) {
-      return _centered('Nothing on the wishlist yet.\nTap + to search and add a book.',
+      return _centered(
+          'Nothing on the wishlist yet.\nTap + to search and add a book.',
           cs, Icons.playlist_add_rounded);
     }
+    final me = _me;
     return RefreshIndicator(
-      onRefresh: _load,
+      onRefresh: () => p.refreshWishlist(),
       child: ListView.separated(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
         itemCount: wanted.length,
         separatorBuilder: (_, __) => const SizedBox(height: 10),
         itemBuilder: (_, i) {
           final book = wanted[i];
-          final owner = _me != null &&
-              book.addedBy.toLowerCase() == _me!.toLowerCase();
+          final owner =
+              me != null && book.addedBy.toLowerCase() == me.toLowerCase();
           return _WishlistTile(
             book: book,
-            myVote: book.myVote(_me),
-            meName: _me,
+            myVote: book.myVote(me),
+            meName: me,
             canRemove: owner || _admin,
             canUnclaim: _admin ||
-                (_me != null &&
-                    (book.claimedBy ?? '').toLowerCase() == _me!.toLowerCase()),
+                (me != null &&
+                    (book.claimedBy ?? '').toLowerCase() == me.toLowerCase()),
             onVote: (dir) => _vote(book, dir),
             onClaim: () => _claim(book),
             onRemove: () => _remove(book),

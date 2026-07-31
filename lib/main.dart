@@ -19,6 +19,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 
 import 'providers/auth_provider.dart';
 import 'providers/library_provider.dart';
+import 'providers/wishlist_provider.dart';
 import 'services/audio_player_service.dart';
 import 'services/api_service.dart';
 import 'services/download_service.dart';
@@ -239,6 +240,10 @@ void main() async {
         ChangeNotifierProxyProvider<AuthProvider, LibraryProvider>(
           create: (_) => LibraryProvider(),
           update: (_, auth, lib) => lib!..updateAuth(auth),
+        ),
+        ChangeNotifierProxyProvider<AuthProvider, WishlistProvider>(
+          create: (_) => WishlistProvider(),
+          update: (_, auth, wl) => wl!..updateAuth(auth),
         ),
       ],
       child: AbsorbApp(setupLinkStream: appLinks.uriLinkStream),
